@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="<%- page.language %>">
+<head>
+
+    <% include includes/head.ejs %>
+
+</head>
+<body>
+<div id="wrapper">
+    <div class="content-wrapper">
+        <div class="content">
+
+            <div id="main">
+
+                <div class="row">
+
+                    <% if (typeof page.adv === 'object' && page.adv.top) { %>
+                    <div style="text-align: center; margin: 10px auto">
+                        <%- page.adv.top %>
+                    </div>
+                    <% } %>
+
+                    <div class="col-md-9">
+
+                        <% if (typeof index === 'object') {
+                            for (var type in index) {
+                                if (index.hasOwnProperty(type) && index[type].length) {
+                                    index[type].forEach(function (category) { %>
+
+                        <h3 class="h3"><%- category.name %></h3>
+
+                        <div class="row items">
+
+                            <% if (category.movies.length) {
+                            category.movies.forEach(function (movie) { %>
+
+                            <div class="col-xs-3 item">
+                                <a href="<%- movie.url %>">
+                                    <div style="width:100%;height:250px;background: url('<%- movie.poster %>') center no-repeat;background-size: cover;" title="<%= movie.title %>"></div>
+                                </a>
+
+                                <span class="label label-danger"><% if (movie.season && movie.episode) { %><%- movie.season %> <%- page.l.season %> <%- movie.episode %> <%- page.l.episode %><% } else { %><%- movie.year %><% } %></span>
+
+
+                                <div class="info">
+                                    <div class="title">
+                                        <a href="<%- movie.url %>" class="link" title="<%= movie.title %>"><%= movie.title %></a>
+                                    </div>
+                                    <div class="desc"><% if (movie.translate) { %><%- movie.translate %><% } else if (movie.genres) { %><%- movie.genres %><% } else { %>...<% } %></div>
+                                </div>
+                            </div>
+
+                            <% }); } %>
+
+                        </div>
+
+                        <% }); } } } %>
+
+                        <% if (typeof page.pagination === 'object') { %>
+                        <nav>
+                            <ul class="pagination">
+                                <% if (page.pagination.first) { %>
+                                <li><a href="<%- page.pagination.first.link %>" rel="nofollow"><%- page.pagination.first.number %></a></li>
+                                <li class="disabled"><a href="javascript:void(0)">...</a></li>
+                                <% } %>
+                                <% if (page.pagination.prev.length) { %>
+                                <% page.pagination.prev.forEach(function (prev) { %>
+                                <li><a href="<%- prev.link %>" rel="nofollow"><%- prev.number %></a></li>
+                                <% }); %>
+                                <li class="disabled"><a href="javascript:void(0)">...</a></li>
+                                <% } %>
+                                <li class="active"><span><%- page.pagination.current %></span></li>
+                                <% if (page.pagination.next.length) { %>
+                                <li class="disabled"><a href="javascript:void(0)">...</a></li>
+                                <% page.pagination.next.forEach(function (next) { %>
+                                <li><a href="<%- next.link %>" rel="nofollow"><%- next.number %></a></li>
+                                <% }); %>
+                                <% } %>
+                                <% if (page.pagination.last) { %>
+                                <li class="disabled"><a href="javascript:void(0)">...</a></li>
+                                <li><a href="<%- page.pagination.last.link %>" rel="nofollow"><%- page.pagination.last.number %></a></li>
+                                <% } %>
+                            </ul>
+                        </nav>
+                        <% } %>
+
+                        <% if (page.seo) { %>
+                        <div class="seo">
+                            <h1 class="h3"><%- page.h1 %></h1>
+                            <p><%- page.seo %></p>
+                        </div>
+                        <% } %>
+
+                    </div>
+                    <div class="col-md-3">
+
+                        <% include includes/right.ejs %>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <% include includes/footer.ejs %>
+
+        </div>
+    </div>
+
+    <% include includes/left.ejs %>
+</div>
+</body>
+</html>
